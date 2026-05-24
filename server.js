@@ -629,18 +629,22 @@ app.get('/api/analytics', async (req, res) => {
 });
 
 // ==========================================
-//   SERVER LISTENER
+//   SERVER LISTENER / EXPORTS
 // ==========================================
-app.listen(PORT, () => {
-  console.log(`=================================================`);
-  console.log(`  AiStudyPlanner AI Planner is running locally!`);
-  console.log(`  Url: http://localhost:${PORT}`);
-  console.log(`  Persistent SQLite database initialized.`);
-  console.log(`=================================================`);
-  
-  try {
-    open(`http://localhost:${PORT}`);
-  } catch (err) {
-    console.log(`Could not automatically open browser:`, err.message);
-  }
-});
+module.exports = app;
+
+if (!process.env.VERCEL && !process.env.NOW_BUILD_TRIGGER) {
+  app.listen(PORT, () => {
+    console.log(`=================================================`);
+    console.log(`  AiStudyPlanner AI Planner is running locally!`);
+    console.log(`  Url: http://localhost:${PORT}`);
+    console.log(`  Persistent SQLite database initialized.`);
+    console.log(`=================================================`);
+    
+    try {
+      open(`http://localhost:${PORT}`);
+    } catch (err) {
+      console.log(`Could not automatically open browser:`, err.message);
+    }
+  });
+}
